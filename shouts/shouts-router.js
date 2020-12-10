@@ -13,10 +13,14 @@ router.get("/:id", validateShoutId(), (req, res, next) => {
 	res.status(200).json(req.shout)
 })
 
-router.post("/", (req, res, next) => {
-	shoutsModel.add(req.body)
-		.then((data) => res.status(201).json(data))
-		.catch((err) => next(err))
+router.post("/", async (req, res, next) => {
+	try{
+		let data = await shoutsModel.add(req.body)
+		res.status(201).json(data)
+	} catch(err){
+		next(err)
+	}
+		
 })
 
 router.delete("/:id", validateShoutId(), (req, res, next) => {
